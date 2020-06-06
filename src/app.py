@@ -91,8 +91,8 @@ def login_user():
     else:
         session['email'] = None
 
-    #return make_response(home_template())
-    return make_response(login_template())
+    return make_response(home_template())
+    #return make_response(login_template())
 
 
 @app.route('/register')
