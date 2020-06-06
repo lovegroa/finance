@@ -1,8 +1,9 @@
 import pymongo
+import os
 
 
 class Database(object):
-    URI = "mongodb://127.0.0.1:27017"
+    URI = os.environ.get("MONGOLAB_URI")
     DATABASE = None
 
     @staticmethod
@@ -17,8 +18,6 @@ class Database(object):
             Database.DATABASE[collection].insert(data)
         except:
             print('fail')
-
-
 
     @staticmethod
     def update(collection, query, data):
@@ -35,4 +34,3 @@ class Database(object):
     @staticmethod
     def find_one(collection, query):
         return Database.DATABASE[collection].find_one(query)
-
