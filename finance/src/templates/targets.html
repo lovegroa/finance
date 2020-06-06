@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block content %}
+
+<nav class="navbar navbar-light" style="background-color: #a533ff;">
+    <a class="navbar-brand" href="/"><span><font size="8" color="white">Alex's Target</font></span></a>
+</nav>
+
+<div class="container-fluid">
+
+    <br>
+    <br>
+    <br>
+
+    <div id="target">
+
+            <div class="card-body bg-light">
+                <form method='post' action='/targets/update'>
+
+                    <div class='input-group mb-2'>
+                        <div class='input-group-prepend'>
+                            <div class='input-group-text'>£</div>
+                        </div>
+                        <input type='number' name='amount' placeholder='Target Amount' value="{{ targets['amount'] }}" step='.01' class='form-control'>
+                    </div>
+
+                    <div class='form-group'>
+                        <label>Target Date</label>
+                        <input type='date' name='target_date' value="{{ targets['target_date'] }}" class='form-control'>
+                    </div>
+                    <input type='hidden' name='id' value='{{ targets["_id"] }}'>
+                    <button type='submit' class='btn btn-primary'>Update</button>
+                </form>
+            </div>
+
+    </div>
+    <br>
+
+</div>
+
+{% endblock %}

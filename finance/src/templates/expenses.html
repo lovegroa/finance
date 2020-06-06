@@ -1,0 +1,233 @@
+{% extends "base.html" %}
+{% block content %}
+
+<nav class="navbar navbar-light" style="background-color: #a533ff;">
+    <a class="navbar-brand" href="/"><span><font size="8" color="white">Alex's Expenses</font></span></a>
+</nav>
+
+<div class="container-fluid">
+
+    <div id="net-worth" class="row">
+
+        <div class="col-6">
+            Expenses total
+        </div>
+
+        <div class="col-6">
+            {{ "£{:,.2f}".format(expense_total) }}
+        </div>
+
+    </div>
+
+    <br>
+
+    <div id="add_expense">
+
+        <div class="card bg-light border-secondary" id="add_expense_heading">
+            <a data-toggle="collapse" href="#add_expense_form" role="button" aria-expanded="false"
+               aria-controls="add_expense_form">
+                <div class="card-header">
+                    <h5 class="mb-0" style="color:black; text-align:center">
+                        Add expense
+                    </h5>
+                </div>
+            </a>
+        </div>
+
+        <div id="add_expense_form" class="collapse" aria-labelledby="add_expense_heading" data-parent="#add_expense">
+            <div class="card-body border-secondary">
+                <form method='post' action='/expenses/add'>
+                    <div class='form-group'>
+                        <label>Expense Name</label>
+                        <input type='text' name='name' class='form-control'>
+                    </div>
+
+                    <div class='form-group'>
+                        <label>Expense Type</label>
+                        <select name='debit' class='form-control'>
+                            <option>Debit</option>
+                            <option>Credit</option>
+                        </select>
+                    </div>
+
+                    <div class='input-group mb-2'>
+                        <div class='input-group-prepend'>
+                            <div class='input-group-text'>£</div>
+                        </div>
+                        <input type='number' name='amount' placeholder='Amount' step='.01' class='form-control'>
+                    </div>
+
+                    <div class='form-group'>
+                        <label>Account</label>
+                        <select name='account_id' class='form-control'>
+
+                            {% for account in accounts %}
+
+                                {% if account["priority"] == 1 %}
+                                    <option selected value="{{ account['_id'] }}">{{ account['name'] }}</option>
+                                {% else %}
+                                    <option value="{{ account['_id'] }}">{{ account['name'] }}</option>
+                                {% endif %}
+
+                            {% endfor %}
+
+                        </select>
+                    </div>
+
+                    <div class='form-group'>
+                        <label>Frequency</label>
+                        <select name='frequency' class='form-control'>
+
+                                <option selected>Once</option>
+                                <option>Daily</option>
+                                <option>Weekly</option>
+                                <option>Monthly</option>
+                                <option>Yearly</option>
+
+                        </select>
+                    </div>
+
+                    <div class='form-group'>
+                        <label>Start Date</label>
+                        <input type='date' name='start_date' class='form-control'>
+                    </div>
+
+                    <div class='form-group'>
+                        <label>End Date</label>
+                        <input type='date' name='end_date' class='form-control'>
+                    </div>
+
+
+                    <div class='form-group form-check'>
+                        <input type='checkbox' name='paid' class='form-check-input'>
+                        <label class='form-check-label'>Paid</label>
+                    </div>
+
+                    <button type='submit' class='btn btn-primary'>Add</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <br>
+
+</div>
+
+<div class="container-fluid">
+
+    {% for expense in expenses %}
+
+    <div id='expense{{ expense["_id"] }}_update'>
+
+        <div class="card bg-light" id='expense{{ expense["_id"] }}_heading'>
+            <a data-toggle="collapse" href='#expense{{ expense["_id"] }}_form' role="button" aria-expanded="false"
+               aria-controls='expense{{ expense["_id"] }}_form'>
+                <div class="card-header" style="color:black;">
+
+                    <div class="row">
+
+                        <div class='col-4'>
+                            {{ expense['name'] }}
+                        </div>
+
+                        <div class='col-4'>
+                            <span class='test'> {{ "£{:,.2f}".format(expense['amount']|float) }} </span>
+                        </div>
+                        <div class='col-4'>
+                            <span class='test'> {{ expense['expense_date']|formatdatetime }} </span>
+                        </div>
+                    </div>
+
+                </div>
+            </a>
+        </div>
+
+        <div id='expense{{ expense["_id"] }}_form' class="collapse"
+             aria-labelledby='expense{{ expense["_id"] }}_heading' data-parent='#expense{{ expense["_id"] }}_update'>
+            <div class="card-body border-secondary">
+                <form method='post' action='/expenses/update'>
+                    <div class='form-group'>
+                        <label>Expense Name</label>
+                        <input type='text' name='name' value="{{ expense['name'] }}" class='form-control'>
+                    </div>
+
+                    <div class='form-group'>
+                        <label>Expense Type</label>
+                        <select name='debit' class='form-control'>
+
+                            {% if expense["debit"] == 1 %}
+                            <option selected>Debit</option>
+                            <option>Credit</option>
+                            {% else %}
+                            <option>Debit</option>
+                            <option selected>Credit</option>
+                            {% endif %}
+
+                        </select>
+                    </div>
+
+                    <div class='input-group mb-2'>
+                        <div class='input-group-prepend'>
+                            <div class='input-group-text'>£</div>
+                        </div>
+                        <input type='number' name='amount' placeholder='Amount' value="{{ expense['amount'] }}" step='.01' class='form-control'>
+                    </div>
+
+                    <div class='form-group'>
+                        <label>Account</label>
+                        <select name='account_id' class='form-control'>
+
+                            {% for account in accounts %}
+
+                                {% if account["_id"] == expense['account_id'] %}
+                                    <option selected value="{{ account['_id'] }}">{{ account['name'] }}</option>
+                                {% else %}
+                                    <option value="{{ account['_id'] }}">{{ account['name'] }}</option>
+                                {% endif %}
+
+                            {% endfor %}
+
+                        </select>
+                    </div>
+
+                    <div class='form-group'>
+                        <label>Expense Date</label>
+                        <input type='date' name='expense_date' value="{{ expense['expense_date'] }}" class='form-control'>
+                    </div>
+
+                    <div class='form-group form-check'>
+
+                        {% if expense["paid"] == 1 %}
+                        <input type='checkbox' name='paid' checked='checked'
+                               class='form-check-input'>
+                        {% else %}
+                        <input type='checkbox' name='paid' class='form-check-input'>
+                        {% endif %}
+
+                        <label class='form-check-label'>Paid</label>
+
+                    </div>
+
+
+
+                    <input type='hidden' name='id' value='{{ expense["_id"] }}'>
+                    <button type='submit' class='btn btn-primary'>Update</button>
+
+                </form>
+                <br>
+                <form method='post' action='/expenses/remove'>
+
+                    <input type='hidden' name='id' value='{{ expense["_id"] }}'>
+                    <button type='submit' class='btn btn-danger'>Delete</button>
+
+                </form>
+
+
+            </div>
+        </div>
+    </div>
+
+    {% endfor %}
+
+</div>
+
+{% endblock %}

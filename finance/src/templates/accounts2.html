@@ -1,0 +1,251 @@
+{% extends "base.html" %}
+{% block content %}
+
+	<nav class="navbar navbar-light" style="background-color: #a533ff;">
+		<a class="navbar-brand" href="/"><span><font size="8" color="white">Alex's Accounts</font></span></a>
+	</nav>
+
+	<div id="add_account">
+
+	<div class="card bg-light border-secondary" id="add_account_heading" >
+		<a data-toggle="collapse" href="#add_account_form" role="button" aria-expanded="false" aria-controls="add_account_form">
+			<div class="card-header">
+				<h5 class="mb-0" style="color:black; text-align:center">
+					Add account
+				</h5>
+			</div>
+		</a>
+	</div>
+
+
+    <div id="add_account_form" class="collapse show" aria-labelledby="add_account_heading" data-parent="#add_account">
+      <div class="card-body border-secondary">
+		  <form method='post' action='/accounts/add'>
+			<div class='form-group'>
+				<label>Account Name</label>
+				<input type='text' name='name' class='form-control'>
+			</div>
+			<div class='form-group'>
+				<label>Account Type</label>
+				<select name='debit' class='form-control'>
+					<option>Debit</option>
+					<option>Credit</option>
+				</select>
+			</div>
+			<div class='input-group mb-2'>
+				<div class='input-group-prepend'>
+					<div class='input-group-text'>£</div>
+				</div>
+				<input type='number' name='amount' placeholder='Amount' step='.01' class='form-control'>
+			</div>
+
+			<div class='input-group mb-2'>
+				<div class='input-group-prepend'>
+					<div class='input-group-text'>£</div>
+				</div>
+				<input type='number' name='min_amount' placeholder='Min Amount' step='.01' class='form-control'>
+			</div>
+
+			<div class='input-group mb-2'>
+				<input type='text' name='colour' placeholder='Colour e.g. #FFFFFF' class='form-control'>
+			</div>
+
+			<div class='form-group form-check'>
+				<input type='checkbox' name='include_in_calculations' class='form-check-input'>
+				<label class='form-check-label'>Include in calculations</label>
+			</div>
+
+			<div class='form-group form-check'>
+				<input type='checkbox' name='priority' class='form-check-input'>
+				<label class='form-check-label'>Primary Account</label>
+			</div>
+
+			<input type='hidden' name='add' value="on">
+			<button type='submit' class='btn btn-primary'>Add</button>
+			</form>
+		  </div>
+		</div>
+	  </div>
+	</div>
+
+<div class="container-fluid">
+
+	<div id="net-worth" class="row">
+
+		<div class="col-6">
+			Accounts total
+		</div>
+
+		<div class="col-6">
+			{{ "£{:,.2f}".format(account_total) }}
+		</div>
+
+	</div>
+
+	<div id='account-new' class='row type2' type="button" data-toggle="collapse" data-target="#e-account-new" aria-expanded="true" aria-controls="e-account-new">
+		Add account
+
+	</div>
+
+	<div class="collapse" id="e-account-new">
+		<br>
+
+		<form method='post' action='/accounts/add'>
+			<div class='form-group'>
+				<label>Account Name</label>
+				<input type='text' name='name' class='form-control'>
+			</div>
+			<div class='form-group'>
+				<label>Account Type</label>
+				<select name='debit' class='form-control'>
+					<option>Debit</option>
+					<option>Credit</option>
+				</select>
+			</div>
+			<div class='input-group mb-2'>
+				<div class='input-group-prepend'>
+					<div class='input-group-text'>£</div>
+				</div>
+				<input type='number' name='amount' placeholder='Amount' step='.01' class='form-control'>
+			</div>
+
+			<div class='input-group mb-2'>
+				<div class='input-group-prepend'>
+					<div class='input-group-text'>£</div>
+				</div>
+				<input type='number' name='min_amount' placeholder='Min Amount' step='.01' class='form-control'>
+			</div>
+
+			<div class='input-group mb-2'>
+				<input type='text' name='colour' placeholder='Colour e.g. #FFFFFF' class='form-control'>
+			</div>
+
+			<div class='form-group form-check'>
+				<input type='checkbox' name='include_in_calculations' class='form-check-input'>
+				<label class='form-check-label'>Include in calculations</label>
+			</div>
+
+			<div class='form-group form-check'>
+				<input type='checkbox' name='priority' class='form-check-input'>
+				<label class='form-check-label'>Primary Account</label>
+			</div>
+
+			<input type='hidden' name='add' value="on">
+			<button type='submit' class='btn btn-primary'>Add</button>
+		</form>
+
+	</div>
+
+	{% for account in accounts %}
+
+		<div id='account{{ account["_id"] }}' class='row type1' type='button' data-toggle='collapse' data-target='#e-account{{ account["_id"] }}' aria-expanded='false' aria-controls='e-account{{ account["_id"] }}' >
+
+			<div class='col-6'>
+				{{ account['name'] }}
+			</div>
+
+			<div  class='col-6'>
+				<span class='test'> {{ "£{:,.2f}".format(account['amount']|float) }} </span>
+			</div>
+
+		</div>
+
+		<div class='collapse' id='e-account{{ account["_id"] }}'>
+
+			<br>
+
+			<form method='post' action='/accounts/update'>
+
+				<div class='form-group'>
+
+					<label>Account Name</label>
+					<input type='text' name='name' value='{{ account["name"] }}' class='form-control'>
+
+				</div>
+
+				<div class='form-group'>
+
+					<label>Account Type</label>
+					<select name='debit' class='form-control'>
+
+						{% if account["debit"] == 1 %}
+							<option selected>Debit</option>
+							<option>Credit</option>
+						{% else %}
+							<option>Debit</option>
+							<option selected>Credit</option>
+						{% endif %}
+
+					</select>
+
+				</div>
+
+				<div class='input-group mb-2'>
+
+					<div class='input-group-prepend'>
+
+						<div class='input-group-text'>£</div>
+
+					</div>
+					<input type='number' name='amount' step='.01' class='form-control' value='{{ account["amount"] }}'>
+
+				</div>
+
+				<div class='input-group mb-2'>
+
+					<div class='input-group-prepend'>
+
+						<div class='input-group-text'>£</div>
+
+					</div>
+					<input type='number' name='min_amount' step='.01' class='form-control' value='{{ account["min_amount"] }}'>
+
+				</div>
+
+				<div class='input-group mb-2'>
+
+					<input type='text' name='colour' class='form-control' value='{{ account["colour"] }}'>
+
+				</div>
+
+				<div class='form-group form-check'>
+
+					{% if account["include_in_calculations"] == 1 %}
+						<input type='checkbox' name='include_in_calculations' checked='checked' class='form-check-input'>
+					{% else %}
+						<input type='checkbox' name='include_in_calculations' class='form-check-input'>
+					{% endif %}
+
+					<label class='form-check-label'>Include in calculations</label>
+
+				</div>
+
+				<div class='form-group form-check'>
+
+					{% if account["priority"] == 1 %}
+						<input type='checkbox' name='priority' checked='checked' class='form-check-input'>
+					{% else %}
+						<input type='checkbox' name='priority' class='form-check-input'>
+					{% endif %}
+
+					<label class='form-check-label'>Primary Account</label>
+
+				</div>
+
+				<input type='hidden' name='id' value='{{ account["_id"] }}'>
+				<button type='submit' class='btn btn-primary'>Update</button>
+			</form>
+			<br>
+			<form method='post' action='/accounts/remove'>
+
+				<input type='hidden' name='id' value='{{ account["_id"] }}'>
+				<button type='submit' class='btn btn-danger'>Delete</button>
+			</form>
+		</div>
+
+	{% endfor %}
+
+</div>
+
+
+{% endblock %}
