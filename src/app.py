@@ -83,15 +83,16 @@ def login_template():
 
 @app.route('/auth/login', methods=['POST'])
 def login_user():
-    email = request.form['email']
-    password = request.form['password']
+    #email = request.form['email']
+    #password = request.form['password']
 
-    if User.login_valid(email, password):
-        User.login(email)
-    else:
-        session['email'] = None
+    #if User.login_valid(email, password):
+    #    User.login(email)
+    #else:
+    #    session['email'] = None
 
-    return make_response(home_template())
+    #return make_response(home_template())
+    return make_response(login_template())
 
 
 @app.route('/register')
