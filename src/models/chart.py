@@ -19,6 +19,7 @@ class Chart(object):
                 account_temp = account['name']
                 account_total_temp = float(account['amount']) - float(account['min_amount']) if account[
                     'debit'] else float(account['min_amount']) - float(account['amount'])
+                data_temp.append(account_total_temp)
                 for day in range(days):
                     period_date = (datetime.today() + timedelta(days=day)).strftime("%Y-%m-%d")
                     expense_total_temp = cash_per_day if account['priority'] else 0
@@ -60,6 +61,7 @@ class Chart(object):
                 account_temp = account['name']
                 account_total_temp = float(account['amount']) if account[
                     'debit'] else - float(account['amount'])
+                data_temp.append(account_total_temp)
                 for day in range(days):
                     period_date = (datetime.today() + timedelta(days=day)).strftime("%Y-%m-%d")
                     expense_total_temp = cash_per_day if account['priority'] else 0
@@ -95,6 +97,7 @@ class Chart(object):
 
         data_temp = []
         total_temp = float(account_total)
+        data_temp.append(account_total)
         for day in range(days):
             period_date = (datetime.today() + timedelta(days=day)).strftime("%Y-%m-%d")
             expense_total_temp = 0
@@ -104,7 +107,6 @@ class Chart(object):
 
                     expense_total_temp = expense_total_temp + cash_per_day if account['priority'] else expense_total_temp
                     for expense in self.expenses:
-                        print(expense_total_temp)
                         if day == 0:
                             if period_date >= expense['expense_date'] and account['_id'] == expense[
                                 'account_id'] and not \

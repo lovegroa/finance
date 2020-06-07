@@ -57,19 +57,18 @@ def home_template():
                                                                                               '%Y-%m-%d').date()).days + 1
 
         cash_remaining = account_total - float(targets.amount) - expense_total
-        print(cash_remaining)
         cash_per_day = cash_remaining / days
 
         base = datetime.today()
-        chart_labels = [(base + timedelta(days=x)).strftime("%d %m") for x in range(days)]
+        chart_labels = [(base + timedelta(days=x)).strftime("%d %m") for x in range(days+1)]
 
         charts = Chart(accounts=accounts, expenses=expenses)
 
         data_list = charts.amount_chart(cash_per_day=cash_per_day, days=days, account_total=account_total)
+        data_list2 = charts.min_amount_chart(cash_per_day=cash_per_day, days=days)
+        data_list3 = charts.amount_account_chart(cash_per_day=cash_per_day, days=days)
 
-        print(data_list)
-
-        return render_template('home.html', datalist=data_list, chart_labels=chart_labels, account_total=account_total,
+        return render_template('home.html', datalist=data_list, datalist2=data_list2, datalist3=data_list3, chart_labels=chart_labels, account_total=account_total,
                                cash_remaining=cash_remaining,
                                cash_per_day=cash_per_day, days=days, targets=targets, expenses=expenses,
                                expense_total=expense_total, start_date=start_date,
@@ -85,14 +84,26 @@ def login_template():
 def login_user():
     email = request.form['email']
     password = request.form['password']
+    print(password)
 
-    if User.login_valid(email, password):
-        User.login(email)
-    else:
-        session['email'] = None
+    if not User.account_exists(email=email):
+        print('test2')
+        return make_response(register_template())
 
-    return make_response(home_template())
-    #return make_response(login_template())
+    print(User.get_by_email(email=email))
+
+    if User.get_by_email(email=email) is not None:
+        print('test3')
+        if User.login_valid(email, password):
+            print('test3')
+            User.login(email)
+            return make_response(home_template())
+        else:
+            print('test4')
+            session['email'] = None
+            return make_response(login_template())
+
+
 
 
 @app.route('/register')
@@ -104,11 +115,12 @@ def register_template():
 def register_user():
     email = request.form['email']
     password = request.form['password']
+    first_name = request.form['first_name']
+    last_name = request.form['last_name']
 
-    User.register(email, password)
+    User.register(email, password, first_name, last_name)
 
-    return render_template("home.html", email=session['email'])
-
+    return make_response(home_template())
 
 @app.route('/accounts')
 def accounts_template():
