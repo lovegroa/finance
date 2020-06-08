@@ -60,15 +60,20 @@ def home_template():
         cash_per_day = cash_remaining / days
 
         base = datetime.today()
-        chart_labels = [(base + timedelta(days=x)).strftime("%d %m") for x in range(days+1)]
+        chart_labels = [(base + timedelta(days=x)).strftime("%d %m") for x in range(days + 1)]
 
         charts = Chart(accounts=accounts, expenses=expenses)
 
         data_list = charts.amount_chart(cash_per_day=cash_per_day, days=days, account_total=account_total)
         data_list2 = charts.min_amount_chart(cash_per_day=cash_per_day, days=days)
         data_list3 = charts.amount_account_chart(cash_per_day=cash_per_day, days=days)
+        target_max = round(float(account_total) - float(expense_total))
+        target_min = round(float(targets.amount) - cash_remaining)
+        print(f' min:{target_max} max:{target_min}')
 
-        return render_template('home.html', datalist=data_list, datalist2=data_list2, datalist3=data_list3, chart_labels=chart_labels, account_total=account_total,
+        return render_template('home.html', target_max=target_max, target_min=target_min, datalist=data_list,
+                               datalist2=data_list2, datalist3=data_list3, chart_labels=chart_labels,
+                               account_total=account_total,
                                cash_remaining=cash_remaining,
                                cash_per_day=cash_per_day, days=days, targets=targets, expenses=expenses,
                                expense_total=expense_total, start_date=start_date,
@@ -78,6 +83,17 @@ def home_template():
 @app.route('/login')
 def login_template():
     return render_template('login.html')
+
+
+def round(n):
+    # Smaller multiple
+    a = (n // 10) * 10
+
+    # Larger multiple
+    b = a + 10
+
+    # Return of closest of two
+    return (b if n - a > b - n else a)
 
 
 @app.route('/auth/login', methods=['POST'])
@@ -104,8 +120,6 @@ def login_user():
             return make_response(login_template())
 
 
-
-
 @app.route('/register')
 def register_template():
     return render_template('register.html')
@@ -121,6 +135,7 @@ def register_user():
     User.register(email, password, first_name, last_name)
 
     return make_response(home_template())
+
 
 @app.route('/accounts')
 def accounts_template():

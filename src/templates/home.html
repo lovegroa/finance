@@ -6,20 +6,21 @@
 
 
 <div id="infopanel" class="row">
-    <div class="col">
-        <canvas id="myChart" height="250"></canvas>
+    <div class="col" style="position: relative; height:20vh; width:80vw">
+        <canvas id="myChart"></canvas>
         <script>
-
+            var data1 = {{ datalist|tojson|safe }};
             var ctx = document.getElementById('myChart').getContext('2d');
             var myChart = new Chart(ctx, {
                 type: 'line',
                 data: {
                     labels: {{ chart_labels|tojson|safe }},
-                    datasets: {{ datalist|tojson|safe }}
+                    datasets: data1
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
+                    responsiveAnimationDuration: 0,
 
                     scales: {
                         xAxes: [{
@@ -41,12 +42,13 @@
                         });
 
 
+
         </script>
     </div>
 </div>
-
+<!--
 <div id="infopanel" class="row">
-    <div class="col">
+    <div class="col" style="position: relative; height:20vh; width:80vw">
         <canvas id="myChart2" height="250"></canvas>
         <script>
 
@@ -81,12 +83,13 @@
                         });
 
 
+
         </script>
     </div>
 </div>
 
 <div id="infopanel" class="row">
-    <div class="col">
+    <div class="col" style="position: relative; height:20vh; width:80vw">
         <canvas id="myChart3" height="250"></canvas>
         <script>
 
@@ -121,10 +124,11 @@
                         });
 
 
+
         </script>
     </div>
 </div>
-
+-->
 <div class="row">
     <div id="net-worth" onclick="location.href='../accounts';" style="cursor:pointer;" class="col-4">
 
@@ -165,14 +169,16 @@
                 type="range"
                 class="custom-range"
                 id="customRange1"
-                value="50"
+                value="{{ targets['amount'] }}"
                 type="range"
-                min="0"
-                max="100"
+                min="{{ target_min }}"
+                max="{{ target_max }}"
                 step="5"
         >
     </div>
 </div>
+
+
 
 <div class="row">
     <div id="cash-per-day" class="col-6">
@@ -299,6 +305,46 @@
         </div>
     </div>
 </div>
+
+<script>
+
+			var slider = document.getElementById("customRange1");
+			var output = document.getElementById("target");
+			var output2 = document.getElementById("cash-per-day");
+			var output3 = document.getElementById("cash-remaining");
+			var formatter = new Intl.NumberFormat('en-UK', {
+  				style: 'currency',
+  				currency: 'GBP',
+  				minimumFractionDigits: 2,
+  				}
+  			);
+			slider.oninput = function() {
+				var cash_per_day;
+				cash_per_day = ({{ account_total }} - this.value - {{ expense_total }}) / {{ days }};
+				output.innerHTML = "Target <br>" + formatter.format(this.value);
+	 			output2.innerHTML = "Cash per day <br>" + formatter.format(cash_per_day);
+	 			output3.innerHTML = "Cash remaining <br>" + formatter.format(cash_per_day * {{ days }});
+
+                  data1 = {{ datalist|tojson|safe }};
+                  data1n = {{ datalist|tojson|safe }};
+
+                for (i in data1[0]['data']) {
+                    data1n[0]['data'][i] = data1[0]['data'][i] - ((cash_per_day - {{ cash_per_day }}) * (i));
+                    console.log(data1[0]['data'][i]);
+                    console.log(data1n[0]['data'][i]);
+                    console.log(cash_per_day);
+                    console.log({{ cash_per_day }});
+                    console.log(i);
+
+                    };
+
+                myChart.data.datasets = data1n;
+                myChart.update(0);
+
+	 		}
+
+
+</script>
 
 {% endfor %}
 
