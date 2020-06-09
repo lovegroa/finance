@@ -2,9 +2,11 @@
 {% block content %}
 
 
-    <nav class="navbar navbar-light" style="background-color: #a533ff;">
-        <a class="navbar-brand" href="/"><span><font size="8" color="white">Alex's Money</font></span></a>
-    </nav>
+<nav class="navbar navbar-light" style="background-color: #a533ff;">
+    <a class="navbar-brand" href="/"><span><font size="8" color="white">Alex's Money</font></span></a>
+</nav>
+
+<div class="container-fluid">
 
     <div id="carouselExampleIndicators" class="carousel slide" data-interval="false" data-ride="carousel">
         <ol class="carousel-indicators">
@@ -55,6 +57,7 @@
                             }
 
                         });
+
 
 
 
@@ -115,6 +118,7 @@
 
 
 
+
                         </script>
                     </div>
                 </div>
@@ -160,6 +164,7 @@
                             }
 
                         });
+
 
 
 
@@ -459,12 +464,12 @@
 
 
 
+
     </script>
 
 
+    {% endfor %}
 
-
-{% endfor %}
-
+</div>
 
 {% endblock %}
