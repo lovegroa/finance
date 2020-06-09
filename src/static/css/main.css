@@ -7,6 +7,23 @@
 			align-items: center;
 			justify-content: center
 		}
+.chart-slide-div {
+
+                position: relative;
+                height:20vh; width:80vw
+
+            }
+
+
+.chart-slide {
+			text-align: center;
+			height: 300px;
+			font-size: 200%;
+			background-color: #E6E6FA;
+			display: flex;
+			align-items: center;
+			justify-content: center
+		}
 
 #infopanel2 {
 			text-align: center;

@@ -17,6 +17,7 @@ class Chart(object):
 
                 data_temp = []
                 account_temp = account['name']
+                account_colour = account['colour']
                 account_total_temp = float(account['amount']) - float(account['min_amount']) if account[
                     'debit'] else float(account['min_amount']) - float(account['amount'])
                 data_temp.append(account_total_temp)
@@ -43,7 +44,7 @@ class Chart(object):
                     account_total_temp = account_total_temp - expense_total_temp
                     data_temp.append(account_total_temp)
 
-                x = f'{{ "label":"{account_temp}", "data":{data_temp}, "backgroundColor":"rgba(247,75,83,0.6)"}}'
+                x = f'{{ "label":"{account_temp}", "data":{data_temp}, "backgroundColor":"{account_colour}"}}'
 
                 data_list.append(json.loads(x))
 
@@ -59,6 +60,7 @@ class Chart(object):
 
                 data_temp = []
                 account_temp = account['name']
+                account_colour = account['colour']
                 account_total_temp = float(account['amount']) if account[
                     'debit'] else - float(account['amount'])
                 data_temp.append(account_total_temp)
@@ -85,7 +87,7 @@ class Chart(object):
                     account_total_temp = account_total_temp - expense_total_temp
                     data_temp.append(account_total_temp)
 
-                x = f'{{ "label":"{account_temp}", "data":{data_temp}, "backgroundColor":"rgba(247,75,83,0.6)"}}'
+                x = f'{{ "label":"{account_temp}", "data":{data_temp}, "backgroundColor":"{account_colour}"}}'
 
                 data_list.append(json.loads(x))
 
