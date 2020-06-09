@@ -1,21 +1,23 @@
 {% extends "base.html" %}
 {% block content %}
-<nav class="navbar navbar-light" style="background-color: #a533ff;">
-    <a class="navbar-brand" href="/"><span><font size="8" color="white">Alex's Money</font></span></a>
-</nav>
 
-<div id="carouselExampleIndicators" class="carousel slide" data-interval="false" data-ride="carousel">
-    <ol class="carousel-indicators">
-        <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-        <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-        <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-    </ol>
-    <div class="carousel-inner">
-        <div class="carousel-item active">
-            <div id="slide1" class="row chart-slide">
-                <div class="col" style="position: relative; height:40vh; width:80vw">
-                    <canvas id="myChart"></canvas>
-                    <script>
+
+    <nav class="navbar navbar-light" style="background-color: #a533ff;">
+        <a class="navbar-brand" href="/"><span><font size="8" color="white">Alex's Money</font></span></a>
+    </nav>
+
+    <div id="carouselExampleIndicators" class="carousel slide" data-interval="false" data-ride="carousel">
+        <ol class="carousel-indicators">
+            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+        </ol>
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <div id="slide1" class="row chart-slide">
+                    <div class="col" style="position: relative; height:30vh; width:80vw">
+                        <canvas id="myChart"></canvas>
+                        <script>
             var data1 = {{ datalist|tojson|safe }};
             var ctx = document.getElementById('myChart').getContext('2d');
             var myChart = new Chart(ctx, {
@@ -60,16 +62,17 @@
 
 
 
-                    </script>
-                </div>
-            </div>
 
-        </div>
-        <div class="carousel-item">
-            <div id="slide2" class="row chart-slide">
-                <div class="col" style="position: relative; height:40vh; width:80vw">
-                    <canvas id="myChart2"></canvas>
-                    <script>
+                        </script>
+                    </div>
+                </div>
+
+            </div>
+            <div class="carousel-item">
+                <div id="slide2" class="row chart-slide">
+                    <div class="col" style="position: relative; height:30vh; width:80vw">
+                        <canvas id="myChart2"></canvas>
+                        <script>
 
             var ctx = document.getElementById('myChart2').getContext('2d');
             var myChart2 = new Chart(ctx, {
@@ -111,15 +114,16 @@
 
 
 
-                    </script>
+
+                        </script>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="carousel-item">
-            <div id="slide3" class="row chart-slide">
-                <div class="col" style="position: relative; height:40vh; width:80vw">
-                    <canvas id="myChart3"></canvas>
-                    <script>
+            <div class="carousel-item">
+                <div id="slide3" class="row chart-slide">
+                    <div class="col" style="position: relative; height:30vh; width:80vw">
+                        <canvas id="myChart3"></canvas>
+                        <script>
 
             var ctx = document.getElementById('myChart3').getContext('2d');
             var myChart3 = new Chart(ctx, {
@@ -160,204 +164,208 @@
 
 
 
-                    </script>
+
+                        </script>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="sr-only">Previous</span>
-    </a>
-    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="sr-only">Next</span>
-    </a>
-</div>
-
-
-<!--
-
-
-
--->
-<div class="row">
-    <div id="net-worth" onclick="location.href='../accounts';" style="cursor:pointer;" class="col-4">
-
-        Accounts total
-        <br>
-        {{ "£{:,.2f}".format(account_total) }}
-
-    </div>
-
-    <div id="target" onclick="location.href='../targets';" style="cursor:pointer;" class="col-4">
-        Target
-        <br>
-        {{ "£{:,.2f}".format(targets['amount']|float) }}
-    </div>
-
-    <div id="expenses" onclick="location.href='../expenses';" style="cursor:pointer;" class="col-4">
-
-        Expenses total
-        <br>
-        {{ "£{:,.2f}".format(expense_total) }}
-
-    </div>
-
-</div>
-
-<div class="row">
-    <div id="time-period" class="col">
-
-        {{ start_date|formatdatetime }} to {{ targets['target_date']|formatdatetime }} | {{ days }} days
-
-    </div>
-
-</div>
-
-<div class="row">
-    <div id="range-slider" class="col">
-        <input
-                type="range"
-                class="custom-range"
-                id="customRange1"
-                value="{{ targets['amount'] }}"
-                type="range"
-                min="{{ target_min }}"
-                max="{{ target_max }}"
-                step="5"
-        >
-    </div>
-</div>
-
-
-<div class="row">
-    <div id="cash-per-day" class="col-6">
-        Cash per day
-        <br>
-        {{ "£{:,.2f}".format(cash_per_day) }}
-    </div>
-    <div id="cash-remaining" class="col-6">
-        Cash remaining
-        <br>
-        {{ "£{:,.2f}".format(cash_remaining) }}
-    </div>
-</div>
-
-
-{% for expense in expenses_in_period %}
-
-<div id='expense{{ expense["_id"] }}_update'>
-
-    <div class="card bg-light" id='expense{{ expense["_id"] }}_heading'>
-        <a data-toggle="collapse" href='#expense{{ expense["_id"] }}_form' role="button" aria-expanded="false"
-           aria-controls='expense{{ expense["_id"] }}_form'>
-            <div class="card-header" style="color:black;">
-
-                <div class="row">
-
-                    <div class='col-5'>
-                        {{ expense['name'] }}
-                    </div>
-
-                    <div class='col-3'>
-                        <span class='test'> {{ "£{:,.2f}".format(expense['amount']|float) }} </span>
-                    </div>
-                    <div class='col-4'>
-                        <span class='test'> {{ expense['expense_date']|formatdatetime }} </span>
-                    </div>
-                </div>
-
-            </div>
+        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
         </a>
     </div>
 
-    <div id='expense{{ expense["_id"] }}_form' class="collapse"
-         aria-labelledby='expense{{ expense["_id"] }}_heading' data-parent='#expense{{ expense["_id"] }}_update'>
-        <div class="card-body border-secondary">
-            <form method='post' action='/expenses/update'>
-                <div class='form-group'>
-                    <label>Expense Name</label>
-                    <input type='text' name='name' value="{{ expense['name'] }}" class='form-control'>
-                </div>
 
-                <div class='form-group'>
-                    <label>Expense Type</label>
-                    <select name='debit' class='form-control'>
-
-                        {% if expense["debit"] == 1 %}
-                        <option selected>Debit</option>
-                        <option>Credit</option>
-                        {% else %}
-                        <option>Debit</option>
-                        <option selected>Credit</option>
-                        {% endif %}
-
-                    </select>
-                </div>
-
-                <div class='input-group mb-2'>
-                    <div class='input-group-prepend'>
-                        <div class='input-group-text'>£</div>
-                    </div>
-                    <input type='number' name='amount' placeholder='Amount' value="{{ expense['amount'] }}" step='.01'
-                           class='form-control'>
-                </div>
-
-                <div class='form-group'>
-                    <label>Account</label>
-                    <select name='account_id' class='form-control'>
-
-                        {% for account in accounts %}
-
-                        {% if account["_id"] == expense['account_id'] %}
-                        <option selected value="{{ account['_id'] }}">{{ account['name'] }}</option>
-                        {% else %}
-                        <option value="{{ account['_id'] }}">{{ account['name'] }}</option>
-                        {% endif %}
-
-                        {% endfor %}
-
-                    </select>
-                </div>
-
-                <div class='form-group'>
-                    <label>Expense Date</label>
-                    <input type='date' name='expense_date' value="{{ expense['expense_date'] }}" class='form-control'>
-                </div>
-
-                <div class='form-group form-check'>
-
-                    {% if expense["paid"] == 1 %}
-                    <input type='checkbox' name='paid' checked='checked'
-                           class='form-check-input'>
-                    {% else %}
-                    <input type='checkbox' name='paid' class='form-check-input'>
-                    {% endif %}
-
-                    <label class='form-check-label'>Paid</label>
-
-                </div>
+    <!--
 
 
-                <input type='hidden' name='id' value='{{ expense["_id"] }}'>
-                <button type='submit' class='btn btn-primary'>Update</button>
 
-            </form>
+    -->
+    <div class="row">
+        <div id="net-worth" onclick="location.href='../accounts';" style="cursor:pointer;" class="col-4">
+
+            Accounts total
             <br>
-            <form method='post' action='/expenses/remove'>
-
-                <input type='hidden' name='id' value='{{ expense["_id"] }}'>
-                <button type='submit' class='btn btn-danger'>Delete</button>
-
-            </form>
-
+            {{ "£{:,.2f}".format(account_total) }}
 
         </div>
-    </div>
-</div>
 
-<script>
+        <div id="target" onclick="location.href='../targets';" style="cursor:pointer;" class="col-4">
+            Target
+            <br>
+            {{ "£{:,.2f}".format(targets['amount']|float) }}
+        </div>
+
+        <div id="expenses" onclick="location.href='../expenses';" style="cursor:pointer;" class="col-4">
+
+            Expenses total
+            <br>
+            {{ "£{:,.2f}".format(expense_total) }}
+
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div id="time-period" class="col">
+
+            {{ start_date|formatdatetime }} to {{ targets['target_date']|formatdatetime }} | {{ days }} days
+
+        </div>
+
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div id="range-slider" class="col">
+                <input
+                        type="range"
+                        class="custom-range"
+                        id="customRange1"
+                        value="{{ targets['amount'] }}"
+                        type="range"
+                        min="{{ target_min }}"
+                        max="{{ target_max }}"
+                        step="5"
+                >
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div id="cash-per-day" class="col-6">
+            Cash per day
+            <br>
+            {{ "£{:,.2f}".format(cash_per_day) }}
+        </div>
+        <div id="cash-remaining" class="col-6">
+            Cash remaining
+            <br>
+            {{ "£{:,.2f}".format(cash_remaining) }}
+        </div>
+    </div>
+
+
+    {% for expense in expenses_in_period %}
+
+    <div id='expense{{ expense["_id"] }}_update'>
+
+        <div class="card bg-light" id='expense{{ expense["_id"] }}_heading'>
+            <a data-toggle="collapse" href='#expense{{ expense["_id"] }}_form' role="button" aria-expanded="false"
+               aria-controls='expense{{ expense["_id"] }}_form'>
+                <div class="card-header" style="color:black;">
+
+                    <div class="row">
+
+                        <div class='col-5'>
+                            {{ expense['name'] }}
+                        </div>
+
+                        <div class='col-3'>
+                            <span class='test'> {{ "£{:,.2f}".format(expense['amount']|float) }} </span>
+                        </div>
+                        <div class='col-4'>
+                            <span class='test'> {{ expense['expense_date']|formatdatetime }} </span>
+                        </div>
+                    </div>
+
+                </div>
+            </a>
+        </div>
+
+        <div id='expense{{ expense["_id"] }}_form' class="collapse"
+             aria-labelledby='expense{{ expense["_id"] }}_heading' data-parent='#expense{{ expense["_id"] }}_update'>
+            <div class="card-body border-secondary">
+                <form method='post' action='/expenses/update'>
+                    <div class='form-group'>
+                        <label>Expense Name</label>
+                        <input type='text' name='name' value="{{ expense['name'] }}" class='form-control'>
+                    </div>
+
+                    <div class='form-group'>
+                        <label>Expense Type</label>
+                        <select name='debit' class='form-control'>
+
+                            {% if expense["debit"] == 1 %}
+                            <option selected>Debit</option>
+                            <option>Credit</option>
+                            {% else %}
+                            <option>Debit</option>
+                            <option selected>Credit</option>
+                            {% endif %}
+
+                        </select>
+                    </div>
+
+                    <div class='input-group mb-2'>
+                        <div class='input-group-prepend'>
+                            <div class='input-group-text'>£</div>
+                        </div>
+                        <input type='number' name='amount' placeholder='Amount' value="{{ expense['amount'] }}"
+                               step='.01'
+                               class='form-control'>
+                    </div>
+
+                    <div class='form-group'>
+                        <label>Account</label>
+                        <select name='account_id' class='form-control'>
+
+                            {% for account in accounts %}
+
+                            {% if account["_id"] == expense['account_id'] %}
+                            <option selected value="{{ account['_id'] }}">{{ account['name'] }}</option>
+                            {% else %}
+                            <option value="{{ account['_id'] }}">{{ account['name'] }}</option>
+                            {% endif %}
+
+                            {% endfor %}
+
+                        </select>
+                    </div>
+
+                    <div class='form-group'>
+                        <label>Expense Date</label>
+                        <input type='date' name='expense_date' value="{{ expense['expense_date'] }}"
+                               class='form-control'>
+                    </div>
+
+                    <div class='form-group form-check'>
+
+                        {% if expense["paid"] == 1 %}
+                        <input type='checkbox' name='paid' checked='checked'
+                               class='form-check-input'>
+                        {% else %}
+                        <input type='checkbox' name='paid' class='form-check-input'>
+                        {% endif %}
+
+                        <label class='form-check-label'>Paid</label>
+
+                    </div>
+
+
+                    <input type='hidden' name='id' value='{{ expense["_id"] }}'>
+                    <button type='submit' class='btn btn-primary'>Update</button>
+
+                </form>
+                <br>
+                <form method='post' action='/expenses/remove'>
+
+                    <input type='hidden' name='id' value='{{ expense["_id"] }}'>
+                    <button type='submit' class='btn btn-danger'>Delete</button>
+
+                </form>
+
+
+            </div>
+        </div>
+    </div>
+
+    <script>
 
 			var slider = document.getElementById("customRange1");
 			var output = document.getElementById("target");
@@ -450,8 +458,13 @@
 
 
 
-</script>
+
+    </script>
+
+
+
 
 {% endfor %}
+
 
 {% endblock %}
