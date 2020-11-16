@@ -75,7 +75,7 @@ class User(object):
             '_id': self._id,
             'password': self.password,
             'first_name': self.first_name,
-            'last_name': self.last_name,
+            'last_name': self.last_name
         }
 
     def save_to_mongo(self):
