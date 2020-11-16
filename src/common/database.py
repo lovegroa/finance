@@ -4,7 +4,7 @@ import os
 
 class Database(object):
     #URI = "mongodb://lovegroa:Terr0r58!@ds029969.mlab.com:29969/heroku_53p67mrn"
-    URI = "mongodb://lovegroa:Terr0r58!@cluster0.bvcvs.mongodb.net:27017/heroku_53p67mrn"
+    URI = "mongodb://lovegroa:Terr0r58!@cluster0-shard-00-02.bvcvs.mongodb.net:27017/heroku_53p67mrn"
     DATABASE = None
 
     @staticmethod
