@@ -3,19 +3,18 @@ import os
 
 
 class Database(object):
-    URI = "mongodb+srv://lovegroa:Terr0r58@cluster0.bvcvs.mongodb.net/heroku_53p67mrn?retryWrites=true&w=majority"
+    URI = "mongodb+srv://test:test@cluster0.bvcvs.mongodb.net/test?retryWrites=true&w=majority"
 
     DATABASE = None
 
     @staticmethod
     def initialize():
-        #client = pymongo.MongoClient(Database.URI)
-        client = pymongo.MongoClient("mongodb+srv://lovegroa:Terr0r58@cluster0.bvcvs.mongodb.net/heroku_53p67mrn?retryWrites=true&w=majority")
-
-        Database.DATABASE = client["heroku_53p67mrn"]
-        collection = Database.DATABASE["users"]
-        post = {"_id" : 0, "name" : "tim", "score" : 5}
-        collection.insert_one(post)
+        client = pymongo.MongoClient(Database.URI)
+        Database.DATABASE = client.get_database('student_db')
+        #Database.DATABASE = client["heroku_53p67mrn"]
+        #collection = Database.DATABASE["users"]
+        #post = {"_id" : 0, "name" : "tim", "score" : 5}
+        #collection.insert_one(post)
         #Database.DATABASE = client.get_default_database()
 
     @staticmethod
