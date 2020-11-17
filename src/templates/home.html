@@ -286,7 +286,7 @@
         <div id='expense{{ expense["_id"] }}_form' class="collapse"
              aria-labelledby='expense{{ expense["_id"] }}_heading' data-parent='#expense{{ expense["_id"] }}_update'>
             <div class="card-body border-secondary">
-                <form method='post' action='/expenses/update'>
+                <form method='post' action='/home/expenses/update'>
                     <div class='form-group'>
                         <label>Expense Name</label>
                         <input type='text' name='name' value="{{ expense['name'] }}" class='form-control'>
@@ -358,7 +358,7 @@
 
                 </form>
                 <br>
-                <form method='post' action='/expenses/remove'>
+                <form method='post' action='/home/expenses/remove'>
 
                     <input type='hidden' name='id' value='{{ expense["_id"] }}'>
                     <button type='submit' class='btn btn-danger'>Delete</button>

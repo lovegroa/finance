@@ -360,6 +360,32 @@ def update_expense():
 
         return make_response(expenses_template())
 
+@app.route('/home/expenses/update', methods=['POST', 'GET'])
+def home_update_expense():
+    if request.method == 'GET':
+        return make_response(expenses_template())
+    else:
+        id = request.form['id']
+        name = request.form['name']
+        debit = 1 if request.form['debit'] == 'Debit' else 0
+        amount = 0 if request.form['amount'] == '' else request.form['amount']
+        account_id = request.form['account_id']
+        temp_expense_date = datetime.utcnow() if request.form['expense_date'] == '' else datetime.strptime(
+            request.form['expense_date'], '%Y-%m-%d').date()
+        paid = 1 if "paid" in request.form else 0
+
+        expense_date = temp_expense_date.strftime("%Y-%m-%d")
+
+        user = User.get_by_email(session['email'])
+
+        new_expense = Expense(_id=id, user_id=user._id, name=name, amount=amount, account_id=account_id,
+                              debit=debit,
+                              expense_date=expense_date, paid=paid)
+
+        new_expense.update_mongo()
+
+    return make_response(home_template())
+
 
 @app.route('/expenses/remove', methods=['POST', 'GET'])
 def remove_expense():
@@ -372,6 +398,17 @@ def remove_expense():
 
         return make_response(expenses_template())
 
+
+@app.route('/home/expenses/remove', methods=['POST', 'GET'])
+def home_remove_expense():
+    if request.method == 'GET':
+        return make_response(expenses_template())
+    else:
+        id = request.form['id']
+
+        Expense.remove_from_mongo(id)
+
+        return make_response(home_template())
 
 @app.template_filter('formatdatetime')
 def format_datetime(value):
