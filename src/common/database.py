@@ -3,7 +3,7 @@ import os
 
 
 class Database(object):
-    URI = "mongodb+srv://lovegroa:Terr0r58!@cluster0.bvcvs.mongodb.net/heroku_53p67mrn?retryWrites=true&w=majority"
+    URI = "mongodb+srv://lovegroa:Terr0r58@cluster0.bvcvs.mongodb.net/heroku_53p67mrn?retryWrites=true&w=majority"
 
     DATABASE = None
 
