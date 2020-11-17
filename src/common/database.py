@@ -9,9 +9,11 @@ class Database(object):
 
     @staticmethod
     def initialize():
-        client = pymongo.MongoClient(Database.URI)
+        #client = pymongo.MongoClient(Database.URI)
+        client = pymongo.MongoClient("mongodb+srv://lovegroa:Terr0r58@cluster0.bvcvs.mongodb.net/heroku_53p67mrn?retryWrites=true&w=majority")
+
         Database.DATABASE = client["heroku_53p67mrn"]
-        collection = Database.DATABASE["test"]
+        collection = Database.DATABASE["users"]
         post = {"_id" : 0, "name" : "tim", "score" : 5}
         collection.insert_one(post)
         #Database.DATABASE = client.get_default_database()
