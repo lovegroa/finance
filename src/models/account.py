@@ -70,8 +70,8 @@ class Account(object):
     def primary_account(accounts):
 
         primary = ""
-        for account in accounts:
-            if account['priority'] == 1:
-                primary = account.name
+        #for account in accounts:
+        #    if account['priority'] == 1:
+        #        primary = account.name
 
         return primary
