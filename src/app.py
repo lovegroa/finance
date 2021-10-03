@@ -143,7 +143,7 @@ def accounts_template():
     accounts = Account.find_accounts(user._id)
     account_total = Account.total_accounts(accounts)
 
-    return render_template('accounts.html', accounts=accounts, account_total=account_total)
+    return render_template('accounts.html', accounts=accounts, account_total=account_total, first=user.first_name)
 
 
 @app.route('/accounts/add', methods=['POST', 'GET'])
@@ -208,7 +208,7 @@ def targets_template():
     user = User.get_by_email(session['email'])
 
     targets = Target.from_mongo(user._id)
-    return render_template('targets.html', targets=targets)
+    return render_template('targets.html', targets=targets, first=user.first_name)
 
 
 @app.route('/targets/update', methods=['POST', 'GET'])
@@ -259,7 +259,7 @@ def expenses_template():
     # required to list the accounts in the form
     accounts = Account.find_accounts(user._id)
 
-    return render_template('expenses.html', expenses=expenses, accounts=accounts, expense_total=expense_total)
+    return render_template('expenses.html', expenses=expenses, accounts=accounts, expense_total=expense_total, first=user.first_name)
 
 
 @app.route('/expenses/add', methods=['POST', 'GET'])
