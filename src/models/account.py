@@ -65,3 +65,13 @@ class Account(object):
                     account_total = float(account_total) + float(account['amount'])
 
         return account_total
+
+    @staticmethod
+    def primary_account(accounts):
+
+        primary = ""
+        for account in accounts:
+            if account['priority'] == 1:
+                primary = account.name
+
+        return primary

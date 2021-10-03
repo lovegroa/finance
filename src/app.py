@@ -34,6 +34,7 @@ def home_template():
         # Total accounts
         accounts = Account.find_accounts(user._id)
         account_total = Account.total_accounts(accounts)
+        primary = Account.primary_account
 
         expenses = Expense.find_expenses(user._id)
         expense_total = 0
@@ -78,7 +79,8 @@ def home_template():
                                cash_remaining=cash_remaining,
                                cash_per_day=cash_per_day, days=days, targets=targets, expenses=expenses,
                                expense_total=expense_total, start_date=start_date,
-                               expenses_in_period=expenses_in_period, accounts=accounts, first=user.first_name)
+                               expenses_in_period=expenses_in_period, accounts=accounts, first=user.first_name,
+                               primary=primary)
 
 
 @app.route('/login')
