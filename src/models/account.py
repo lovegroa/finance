@@ -72,6 +72,6 @@ class Account(object):
         primary = ""
         for account in accounts:
             if account['priority'] == 1:
-                primary = str(account.name)
+                primary = account.name
 
         return primary
