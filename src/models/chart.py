@@ -95,6 +95,8 @@ class Chart(object):
 
     def amount_chart(self, account_total, cash_per_day, days):
 
+        user = User.get_by_email(session['email'])
+
         data_list = []
 
         data_temp = []
