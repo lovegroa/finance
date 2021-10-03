@@ -34,7 +34,7 @@ def home_template():
         # Total accounts
         accounts = Account.find_accounts(user._id)
         account_total = Account.total_accounts(accounts)
-        primary = Account.primary_account
+        primary = Account.primary_account(accounts)
 
         expenses = Expense.find_expenses(user._id)
         expense_total = 0
