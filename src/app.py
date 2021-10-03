@@ -77,7 +77,7 @@ def home_template():
                                cash_remaining=cash_remaining,
                                cash_per_day=cash_per_day, days=days, targets=targets, expenses=expenses,
                                expense_total=expense_total, start_date=start_date,
-                               expenses_in_period=expenses_in_period, accounts=accounts)
+                               expenses_in_period=expenses_in_period, accounts=accounts, first=user.first_name)
 
 
 @app.route('/login')
