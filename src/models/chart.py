@@ -130,7 +130,7 @@ class Chart(object):
             total_temp = total_temp - expense_total_temp
             data_temp.append(total_temp)
 
-        x = f'{{ "label": "{user.first_name}", "data":{data_temp}, "backgroundColor":"rgba(247,75,83,0.6)"}}'
+        x = f'{{ "label": {user.first_name}, "data":{data_temp}, "backgroundColor":"rgba(247,75,83,0.6)"}}'
 
         data_list.append(json.loads(x))
 
