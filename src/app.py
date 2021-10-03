@@ -29,6 +29,7 @@ def home_template():
     else:
 
         user = User.get_by_email(session['email'])
+        first = user.first_name
 
         # Total accounts
         accounts = Account.find_accounts(user._id)
@@ -64,8 +65,8 @@ def home_template():
 
         charts = Chart(accounts=accounts, expenses=expenses)
 
-        data_list = charts.amount_chart(cash_per_day=cash_per_day, days=days, account_total=account_total, user=user)
-        data_list2 = charts.min_amount_chart(cash_per_day=cash_per_day, days=days, user=user)
+        data_list = charts.amount_chart(cash_per_day=cash_per_day, days=days, account_total=account_total, first=first)
+        data_list2 = charts.min_amount_chart(cash_per_day=cash_per_day, days=days)
         data_list3 = charts.amount_account_chart(cash_per_day=cash_per_day, days=days)
         target_max = round(float(account_total) - float(expense_total))
         target_min = round(float(targets.amount) - cash_remaining)
