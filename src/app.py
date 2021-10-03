@@ -259,7 +259,8 @@ def expenses_template():
     # required to list the accounts in the form
     accounts = Account.find_accounts(user._id)
 
-    return render_template('expenses.html', expenses=expenses, accounts=accounts, expense_total=expense_total, first=user.first_name)
+    return render_template('expenses.html', expenses=expenses, accounts=accounts, expense_total=expense_total,
+                           first=user.first_name)
 
 
 @app.route('/expenses/add', methods=['POST', 'GET'])
