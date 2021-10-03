@@ -93,7 +93,7 @@ class Chart(object):
 
         return data_list
 
-    def amount_chart(self, account_total, cash_per_day, days):
+    def amount_chart(self, account_total, cash_per_day, days, user):
 
         data_list = []
 
