@@ -105,6 +105,16 @@
 			justify-content: center
 		}
 
+#cash-per-week {
+
+			height: 100px;
+			font-size: 100%;
+			background-color: #D8BFD8;
+			display: flex;
+			align-items: center;
+			justify-content: center
+		}
+
 #cash-remaining {
 
 			height: 100px;

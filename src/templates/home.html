@@ -383,6 +383,7 @@
 			var output = document.getElementById("target");
 			var output2 = document.getElementById("cash-per-day");
 			var output3 = document.getElementById("cash-remaining");
+			var output4 = document.getElementById("cash-per-week");
 			var formatter = new Intl.NumberFormat('en-UK', {
   				style: 'currency',
   				currency: 'GBP',
@@ -395,6 +396,7 @@
 				output.innerHTML = "Target <br>" + formatter.format(this.value);
 	 			output2.innerHTML = "Cash per day <br>" + formatter.format(cash_per_day);
 	 			output3.innerHTML = "Cash remaining <br>" + formatter.format(cash_per_day * {{ days }});
+	 			output4.innerHTML = "Cash per week <br>" + formatter.format(cash_per_day * 7);
 
                   data1 = {{ datalist|tojson|safe }};
                   data1n = {{ datalist|tojson|safe }};
