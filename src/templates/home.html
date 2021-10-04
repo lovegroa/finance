@@ -245,12 +245,17 @@
 
 
     <div class="row">
-        <div id="cash-per-day" class="col-6">
+        <div id="cash-per-day" class="col-4">
             Cash per day
             <br>
             {{ "£{:,.2f}".format(cash_per_day) }}
         </div>
-        <div id="cash-remaining" class="col-6">
+        <div id="cash-per-week" class="col-4">
+            Cash per week
+            <br>
+            {{ "£{:,.2f}".format(cash_per_week) }}
+        </div>
+        <div id="cash-remaining" class="col-4">
             Cash remaining
             <br>
             {{ "£{:,.2f}".format(cash_remaining) }}

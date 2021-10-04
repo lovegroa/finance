@@ -60,6 +60,7 @@ def home_template():
 
         cash_remaining = account_total - float(targets.amount) - expense_total
         cash_per_day = cash_remaining / days
+        cash_per_week = cash_per_day * 7
 
         base = datetime.today()
         chart_labels = [(base + timedelta(days=x)).strftime("%d %m") for x in range(days + 1)]
@@ -80,7 +81,7 @@ def home_template():
                                cash_per_day=cash_per_day, days=days, targets=targets, expenses=expenses,
                                expense_total=expense_total, start_date=start_date,
                                expenses_in_period=expenses_in_period, accounts=accounts, first=user.first_name,
-                               primary=primary)
+                               primary=primary, cash_per_week=cash_per_week)
 
 
 @app.route('/login')
