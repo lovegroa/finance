@@ -1,6 +1,9 @@
-Flask==0.10.1
+Flask
 pymongo
 dnspython
-python-dateutil==2.8.1
-Babel==2.8.0
-uwsgi
+python-dateutil
+Babel
+# uwsgi
+# python-dateutil==2.8.1
+# Babel==2.8.0
+# Flask==0.10.1
