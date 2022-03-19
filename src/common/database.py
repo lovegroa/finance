@@ -3,7 +3,7 @@ import os
 
 
 class Database(object):
-    URI = "mongodb+srv://test:test@cluster0.bvcvs.mongodb.net/test?retryWrites=true&w=majority"
+    URI = "mongodb+srv://test:test@cluster0.bvcvs.mongodb.net/test?retryWrites=true&w=majority&ssl=true&ssl_cert_reqs=CERT_NONE"
 
     DATABASE = None
 
