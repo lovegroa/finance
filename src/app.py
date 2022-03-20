@@ -4,13 +4,27 @@ from dateutil.relativedelta import *
 
 from flask import Flask, render_template, session, request, make_response
 
-from common.database import Database
-from models.account import Account
-from models.chart import Chart
-from models.expense import Expense
-from models.target import Target
-from models.user import User
-from models.nexpense import NExpense
+
+try:
+
+    from common.database import Database
+    from models.account import Account
+    from models.chart import Chart
+    from models.expense import Expense
+    from models.target import Target
+    from models.user import User
+    from models.nexpense import NExpense
+
+
+except:
+
+    from src.common.database import Database
+    from src.models.account import Account
+    from src.models.chart import Chart
+    from src.models.expense import Expense
+    from src.models.target import Target
+    from src.models.user import User
+    from src.models.nexpense import NExpense
 
 app = Flask(__name__)
 app.secret_key = "alex"
