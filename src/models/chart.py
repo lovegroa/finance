@@ -13,34 +13,51 @@ class Chart(object):
 
         for account in self.accounts:
 
-            if account['include_in_calculations']:
+            if account["include_in_calculations"]:
 
                 data_temp = []
-                account_temp = account['name']
-                account_colour = account['colour']
-                account_total_temp = float(account['amount']) - float(account['min_amount']) if account[
-                    'debit'] else float(account['min_amount']) - float(account['amount'])
+                account_temp = account["name"]
+                account_colour = account["colour"]
+                account_total_temp = (
+                    float(account["amount"]) - float(account["min_amount"])
+                    if account["debit"]
+                    else float(account["min_amount"]) - float(account["amount"])
+                )
                 data_temp.append(account_total_temp)
                 for day in range(days):
-                    period_date = (datetime.today() + timedelta(days=day)).strftime("%Y-%m-%d")
-                    expense_total_temp = cash_per_day if account['priority'] else 0
+                    period_date = (datetime.today() + timedelta(days=day)).strftime(
+                        "%Y-%m-%d"
+                    )
+                    expense_total_temp = cash_per_day if account["priority"] else 0
                     for expense in self.expenses:
                         if day == 0:
-                            if period_date >= expense['expense_date'] and account['_id'] == expense[
-                                'account_id'] and not \
-                                    expense['paid']:
-                                if expense['debit']:
-                                    expense_total_temp = expense_total_temp + float(expense['amount'])
+                            if (
+                                period_date >= expense.expense_date
+                                and account["_id"] == expense.account_id
+                                and not expense.paid
+                            ):
+                                if expense.debit:
+                                    expense_total_temp = expense_total_temp + float(
+                                        expense.amount
+                                    )
                                 else:
-                                    expense_total_temp = expense_total_temp - float(expense['amount'])
+                                    expense_total_temp = expense_total_temp - float(
+                                        expense.amount
+                                    )
                         else:
-                            if period_date == expense['expense_date'] and account['_id'] == expense[
-                                'account_id'] and not \
-                                    expense['paid']:
-                                if expense['debit']:
-                                    expense_total_temp = expense_total_temp + float(expense['amount'])
+                            if (
+                                period_date == expense.expense_date
+                                and account["_id"] == expense.account_id
+                                and not expense.paid
+                            ):
+                                if expense.debit:
+                                    expense_total_temp = expense_total_temp + float(
+                                        expense.amount
+                                    )
                                 else:
-                                    expense_total_temp = expense_total_temp - float(expense['amount'])
+                                    expense_total_temp = expense_total_temp - float(
+                                        expense.amount
+                                    )
                     account_total_temp = account_total_temp - expense_total_temp
                     data_temp.append(account_total_temp)
 
@@ -56,34 +73,51 @@ class Chart(object):
 
         for account in self.accounts:
 
-            if account['include_in_calculations']:
+            if account["include_in_calculations"]:
 
                 data_temp = []
-                account_temp = account['name']
-                account_colour = account['colour']
-                account_total_temp = float(account['amount']) if account[
-                    'debit'] else - float(account['amount'])
+                account_temp = account["name"]
+                account_colour = account["colour"]
+                account_total_temp = (
+                    float(account["amount"])
+                    if account["debit"]
+                    else -float(account["amount"])
+                )
                 data_temp.append(account_total_temp)
                 for day in range(days):
-                    period_date = (datetime.today() + timedelta(days=day)).strftime("%Y-%m-%d")
-                    expense_total_temp = cash_per_day if account['priority'] else 0
+                    period_date = (datetime.today() + timedelta(days=day)).strftime(
+                        "%Y-%m-%d"
+                    )
+                    expense_total_temp = cash_per_day if account["priority"] else 0
                     for expense in self.expenses:
                         if day == 0:
-                            if period_date >= expense['expense_date'] and account['_id'] == expense[
-                                'account_id'] and not \
-                                    expense['paid']:
-                                if expense['debit']:
-                                    expense_total_temp = expense_total_temp + float(expense['amount'])
+                            if (
+                                period_date >= expense.expense_date
+                                and account["_id"] == expense.account_id
+                                and not expense.paid
+                            ):
+                                if expense.debit:
+                                    expense_total_temp = expense_total_temp + float(
+                                        expense.amount
+                                    )
                                 else:
-                                    expense_total_temp = expense_total_temp - float(expense['amount'])
+                                    expense_total_temp = expense_total_temp - float(
+                                        expense.amount
+                                    )
                         else:
-                            if period_date == expense['expense_date'] and account['_id'] == expense[
-                                'account_id'] and not \
-                                    expense['paid']:
-                                if expense['debit']:
-                                    expense_total_temp = expense_total_temp + float(expense['amount'])
+                            if (
+                                period_date == expense.expense_date
+                                and account["_id"] == expense.account_id
+                                and not expense.paid
+                            ):
+                                if expense.debit:
+                                    expense_total_temp = expense_total_temp + float(
+                                        expense.amount
+                                    )
                                 else:
-                                    expense_total_temp = expense_total_temp - float(expense['amount'])
+                                    expense_total_temp = expense_total_temp - float(
+                                        expense.amount
+                                    )
                     account_total_temp = account_total_temp - expense_total_temp
                     data_temp.append(account_total_temp)
 
@@ -105,26 +139,42 @@ class Chart(object):
             expense_total_temp = 0
             for account in self.accounts:
 
-                if account['include_in_calculations']:
+                if account["include_in_calculations"]:
 
-                    expense_total_temp = expense_total_temp + cash_per_day if account['priority'] else expense_total_temp
+                    expense_total_temp = (
+                        expense_total_temp + cash_per_day
+                        if account["priority"]
+                        else expense_total_temp
+                    )
                     for expense in self.expenses:
                         if day == 0:
-                            if period_date >= expense['expense_date'] and account['_id'] == expense[
-                                'account_id'] and not \
-                                    expense['paid']:
-                                if expense['debit']:
-                                    expense_total_temp = expense_total_temp + float(expense['amount'])
+                            if (
+                                period_date >= expense.expense_date
+                                and account["_id"] == expense.account_id
+                                and not expense.paid
+                            ):
+                                if expense.debit:
+                                    expense_total_temp = expense_total_temp + float(
+                                        expense.amount
+                                    )
                                 else:
-                                    expense_total_temp = expense_total_temp - float(expense['amount'])
+                                    expense_total_temp = expense_total_temp - float(
+                                        expense.amount
+                                    )
                         else:
-                            if period_date == expense['expense_date'] and account['_id'] == expense[
-                                'account_id'] and not \
-                                    expense['paid']:
-                                if expense['debit']:
-                                    expense_total_temp = expense_total_temp + float(expense['amount'])
+                            if (
+                                period_date == expense.expense_date
+                                and account["_id"] == expense.account_id
+                                and not expense.paid
+                            ):
+                                if expense.debit:
+                                    expense_total_temp = expense_total_temp + float(
+                                        expense.amount
+                                    )
                                 else:
-                                    expense_total_temp = expense_total_temp - float(expense['amount'])
+                                    expense_total_temp = expense_total_temp - float(
+                                        expense.amount
+                                    )
             total_temp = total_temp - expense_total_temp
             data_temp.append(total_temp)
 

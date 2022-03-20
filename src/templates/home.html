@@ -293,86 +293,15 @@
         <div id='expense{{ expense["_id"] }}_form' class="collapse"
              aria-labelledby='expense{{ expense["_id"] }}_heading' data-parent='#expense{{ expense["_id"] }}_update'>
             <div class="card-body border-secondary">
-                <form method='post' action='/home/expenses/update'>
-                    <div class='form-group'>
-                        <label>Expense Name</label>
-                        <input type='text' name='name' value="{{ expense['name'] }}" class='form-control'>
-                    </div>
+                <form method='post' action='/home/expenses/paid'>
 
-                    <div class='form-group'>
-                        <label>Expense Type</label>
-                        <select name='debit' class='form-control'>
-
-                            {% if expense["debit"] == 1 %}
-                            <option selected>Debit</option>
-                            <option>Credit</option>
-                            {% else %}
-                            <option>Debit</option>
-                            <option selected>Credit</option>
-                            {% endif %}
-
-                        </select>
-                    </div>
-
-                    <div class='input-group mb-2'>
-                        <div class='input-group-prepend'>
-                            <div class='input-group-text'>£</div>
-                        </div>
-                        <input type='number' name='amount' placeholder='Amount' value="{{ expense['amount'] }}"
-                               step='.01'
-                               class='form-control'>
-                    </div>
-
-                    <div class='form-group'>
-                        <label>Account</label>
-                        <select name='account_id' class='form-control'>
-
-                            {% for account in accounts %}
-
-                            {% if account["_id"] == expense['account_id'] %}
-                            <option selected value="{{ account['_id'] }}">{{ account['name'] }}</option>
-                            {% else %}
-                            <option value="{{ account['_id'] }}">{{ account['name'] }}</option>
-                            {% endif %}
-
-                            {% endfor %}
-
-                        </select>
-                    </div>
-
-                    <div class='form-group'>
-                        <label>Expense Date</label>
-                        <input type='date' name='expense_date' value="{{ expense['expense_date'] }}"
-                               class='form-control'>
-                    </div>
-
-                    <div class='form-group form-check'>
-
-                        {% if expense["paid"] == 1 %}
-                        <input type='checkbox' name='paid' checked='checked'
-                               class='form-check-input'>
-                        {% else %}
-                        <input type='checkbox' name='paid' class='form-check-input'>
-                        {% endif %}
-
-                        <label class='form-check-label'>Paid</label>
-
-                    </div>
-
-
+                    <input type='hidden' name='expense_date' value="{{ expense['expense_date'] }}">
                     <input type='hidden' name='id' value='{{ expense["_id"] }}'>
-                    <button type='submit' class='btn btn-primary'>Update</button>
+                    <input type='hidden' name='nexpense_id' value='{{ expense["nexpense_id"] }}'>
+                    <button type='submit' class='btn btn-primary'>Paid</button>
 
                 </form>
                 <br>
-                <form method='post' action='/home/expenses/remove'>
-
-                    <input type='hidden' name='id' value='{{ expense["_id"] }}'>
-                    <button type='submit' class='btn btn-danger'>Delete</button>
-
-                </form>
-
-
             </div>
         </div>
     </div>
