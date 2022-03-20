@@ -105,6 +105,19 @@ def home_template():
                     expense_date = nexpense["start_date"] + relativedelta(years=+count)
                     count = count + 1
 
+        # take second element for sort
+        def takeSecond(elem):
+            return elem.expense_date
+
+        # random list
+        # random = [(2, 2), (3, 4), (4, 1), (1, 3)]
+
+        # sort list with key
+        expenses.sort(key=takeSecond)
+
+        # # print list
+        # print('Sorted list:', random)
+
         for expense in expenses:
 
             if expense.expense_date <= targets.target_date and expense.paid == 0:
