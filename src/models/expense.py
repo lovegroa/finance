@@ -3,7 +3,7 @@ from datetime import datetime
 
 from flask import session
 
-from common.database import Database
+from src.common.database import Database
 
 
 class Expense(object):
