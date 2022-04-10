@@ -9,12 +9,16 @@
 
     <div id="net-worth" class="row">
 
-        <div class="col-6">
-            Expenses total
+        <div class="col-4">
+            Expenses total: {{ "£{:,.2f}".format(expense_total) }}
         </div>
 
-        <div class="col-6">
-            {{ "£{:,.2f}".format(expense_total) }}
+        <div class="col-4">
+            Income total: {{ "£{:,.2f}".format(income_total) }}
+        </div>
+
+        <div class="col-4">
+            Delta: {{ "£{:,.2f}".format(surplus) }}
         </div>
 
     </div>

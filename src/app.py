@@ -392,6 +392,29 @@ def expenses_template():
 
     expenses = NExpense.find_nexpenses(user._id)
     expense_total = 0
+    income_total = 0
+
+    for expense in expenses:
+        if expense["frequency"] == "Monthly" and expense["debit"] == 1:
+            expense_total = expense_total + float(expense["amount"])
+        if expense["frequency"] == "Daily" and expense["debit"] == 1:
+            expense_total = expense_total + float(expense["amount"]) * 30
+        if expense["frequency"] == "Weekly" and expense["debit"] == 1:
+            expense_total = expense_total + float(expense["amount"]) * 4
+        if expense["frequency"] == "Yearly" and expense["debit"] == 1:
+            expense_total = expense_total + float(expense["amount"]) / 12
+        if expense["frequency"] == "Monthly" and expense["debit"] == 0:
+            income_total = income_total + float(expense["amount"])
+        if expense["frequency"] == "Daily" and expense["debit"] == 0:
+            income_total = income_total + float(expense["amount"]) * 30
+        if expense["frequency"] == "Weekly" and expense["debit"] == 0:
+            income_total = income_total + float(expense["amount"]) * 4
+        if expense["frequency"] == "Yearly" and expense["debit"] == 0:
+            income_total = income_total + float(expense["amount"]) / 12
+
+    print(expense_total)
+    print(income_total)
+    surplus = income_total - expense_total
 
     # expenses = Expense.find_expenses(user._id)
     # expense_total = Expense.total_expenses(expenses)
@@ -405,6 +428,8 @@ def expenses_template():
         accounts=accounts,
         expense_total=expense_total,
         first=user.first_name,
+        surplus=surplus,
+        income_total=income_total
     )
 
 
