@@ -422,6 +422,54 @@ def expenses_template():
     # required to list the accounts in the form
     accounts = Account.find_accounts(user._id)
 
+    for account in accounts:
+
+        account_expense_total = 0
+        account_income_total = 0
+        for expense in expenses:
+            if account["_id"] == expense["account_id"]:
+                if expense["frequency"] == "Monthly" and expense["debit"] == 1:
+                    account_expense_total = account_expense_total + float(
+                        expense["amount"]
+                    )
+                if expense["frequency"] == "Daily" and expense["debit"] == 1:
+                    account_expense_total = (
+                        account_expense_total + float(expense["amount"]) * 30
+                    )
+                if expense["frequency"] == "Weekly" and expense["debit"] == 1:
+                    account_expense_total = (
+                        account_expense_total + float(expense["amount"]) * 4
+                    )
+                if expense["frequency"] == "Yearly" and expense["debit"] == 1:
+                    account_expense_total = (
+                        account_expense_total + float(expense["amount"]) / 12
+                    )
+                if expense["frequency"] == "Monthly" and expense["debit"] == 0:
+                    account_income_total = account_income_total + float(
+                        expense["amount"]
+                    )
+                if expense["frequency"] == "Daily" and expense["debit"] == 0:
+                    account_income_total = (
+                        account_income_total + float(expense["amount"]) * 30
+                    )
+                if expense["frequency"] == "Weekly" and expense["debit"] == 0:
+                    account_income_total = (
+                        account_income_total + float(expense["amount"]) * 4
+                    )
+                if expense["frequency"] == "Yearly" and expense["debit"] == 0:
+                    account_income_total = (
+                        account_income_total + float(expense["amount"]) / 12
+                    )
+        account["account_expense_total"] = account_expense_total
+        account["account_income_total"] = account_income_total
+        account["delta"] = account_income_total - account_expense_total
+        if account_expense_total == 0 and account_income_total == 0:
+            account["show"] = False
+        else:
+            account["show"] = True
+
+        print(account["account_expense_total"])
+
     return render_template(
         "expenses.html",
         expenses=expenses,
@@ -429,7 +477,7 @@ def expenses_template():
         expense_total=expense_total,
         first=user.first_name,
         surplus=surplus,
-        income_total=income_total
+        income_total=income_total,
     )
 
 
@@ -527,35 +575,49 @@ def add_expenses():
 
 @app.route("/expenses/update", methods=["POST", "GET"])
 def update_expense():
+    print("test")
     if request.method == "GET":
         return make_response(expenses_template())
     else:
+        print(request.form)
         id = request.form["id"]
-        name = request.form["name"]
-        debit = 1 if request.form["debit"] == "Debit" else 0
-        amount = 0 if request.form["amount"] == "" else request.form["amount"]
-        account_id = request.form["account_id"]
-        temp_expense_date = (
-            datetime.utcnow()
-            if request.form["expense_date"] == ""
-            else datetime.strptime(request.form["expense_date"], "%Y-%m-%d").date()
+        new_expense = NExpense.from_mongo(id=id)
+
+        new_expense.name = request.form["name"]
+        new_expense.debit = 1 if request.form["debit"] == "Debit" else 0
+        new_expense.amount = (
+            0 if request.form["amount"] == "" else request.form["amount"]
         )
-        paid = 1 if "paid" in request.form else 0
+        new_expense.account_id = request.form["account_id"]
+        # start_date = (
+        #     datetime.utcnow()
+        #     if request.form["start_date"] == ""
+        #     else datetime.strptime(request.form["start_date"], "%Y-%m-%d").date()
+        # )
+        # end_date = (
+        #     datetime.utcnow()
+        #     if request.form["end_date"] == ""
+        #     else datetime.strptime(request.form["end_date"], "%Y-%m-%d").date()
+        # )
 
-        expense_date = temp_expense_date.strftime("%Y-%m-%d")
+        # paid = 1 if "paid" in request.form else 0
 
-        user = User.get_by_email(session["email"])
+        # start_date = start_date.strftime("%Y-%m-%d")
+        # end_date = end_date.strftime("%Y-%m-%d")
 
-        new_expense = Expense(
-            _id=id,
-            user_id=user._id,
-            name=name,
-            amount=amount,
-            account_id=account_id,
-            debit=debit,
-            expense_date=expense_date,
-            paid=paid,
-        )
+        # user = User.get_by_email(session["email"])
+
+        print(new_expense)
+
+        # new_expense = NExpense(
+        #     user_id=user._id,
+        #     name=name,
+        #     account_id=account_id,
+        #     start_date=start_date,
+        #     end_date=end_date,
+        #     amount=amount,
+        #     paid=paid,
+        # )
 
         new_expense.update_mongo()
 
@@ -564,6 +626,7 @@ def update_expense():
 
 @app.route("/home/expenses/update", methods=["POST", "GET"])
 def home_update_expense():
+    print("test")
     if request.method == "GET":
         return make_response(expenses_template())
     else:

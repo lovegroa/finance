@@ -36,6 +36,9 @@ class NExpense(object):
         self.paid_dates = paid_dates
         self.frequency = frequency
 
+    def __str__(self):
+        return str(self.__class__) + ": " + str(self.__dict__)
+
     def save_to_mongo(self):
 
         Database.insert(collection="nexpenses", data=self.json())
