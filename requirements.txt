@@ -4,7 +4,7 @@ dnspython
 python-dateutil
 Babel
 certifi
-uwsgi
+uwsgi==2.0.18
 
 # python-dateutil==2.8.1
 # Babel==2.8.0
